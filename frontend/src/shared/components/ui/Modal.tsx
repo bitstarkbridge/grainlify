@@ -1,5 +1,5 @@
 import React, { ReactNode, useState, useRef, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { X, ChevronDown } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 
 interface ModalProps {
@@ -35,7 +35,6 @@ export function Modal({
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
-  // Add/remove class to body when modal is open to blur sidebar
   React.useEffect(() => {
     if (isOpen) {
       document.body.classList.add('modal-open');
@@ -62,7 +61,6 @@ export function Modal({
         }`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Fixed Header */}
         {(title || icon || showCloseButton) && (
           <div className="flex items-start justify-between p-6 pb-4 flex-shrink-0 border-b border-white/10">
             <div className="flex items-center gap-3 flex-1">
@@ -97,13 +95,9 @@ export function Modal({
             )}
           </div>
         )}
-
-        {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto p-6 scrollbar-custom">
           {children}
         </div>
-
-        {/* Fixed Footer */}
         {footer && (
           <div className="flex-shrink-0 border-t border-white/10 p-6 pt-4">
             {footer}
@@ -254,10 +248,8 @@ export function ModalSelect({
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Find current label to display on the button
   const selectedOption = options.find((opt) => opt.value === value);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -280,7 +272,6 @@ export function ModalSelect({
         </label>
       )}
 
-      {/* Custom Trigger Button - Matches your existing style perfectly */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -291,23 +282,17 @@ export function ModalSelect({
         } ${isOpen ? 'border-[#c9983a]' : ''}`}
       >
         <span>{selectedOption ? selectedOption.label : 'Select...'}</span>
-        <svg
-          className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-        </svg>
+        <ChevronDown 
+          className={`w-4 h-4 text-amber-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} 
+        />
       </button>
 
-      {/* Custom Dropdown Menu - This is the fix for the theme issue */}
       {isOpen && (
         <div
           className={`absolute z-[100] w-full mt-[80px] max-h-60 overflow-auto rounded-[14px] border shadow-2xl backdrop-blur-xl animate-in fade-in zoom-in-95 duration-200 ${
             theme === 'dark' 
               ? 'bg-[#1a1a1a] border-white/10' 
-              : 'bg-white border-gray-200 shadow-xl'
+              : 'bg-[#ede3d0] border-[#c9983a]/60 shadow-amber-900/20'
           }`}
         >
           <ul className="py-2">
@@ -321,16 +306,16 @@ export function ModalSelect({
                 className={`px-4 py-2.5 cursor-pointer text-[14px] transition-colors flex items-center justify-between ${
                   theme === 'dark'
                     ? value === option.value
-                      ? 'bg-[#c9983a]/20 text-[#c9983a]'
+                      ? 'bg-[#c9983a]/30 text-[#c9983a] font-bold'
                       : 'text-gray-300 hover:bg-white/5'
                     : value === option.value
-                      ? 'bg-[#c9983a]/10 text-[#c9983a]'
-                      : 'text-[#2d2820] hover:bg-gray-100'
+                      ? 'bg-[#c9983a]/30 text-[#8b6b2d] font-bold'
+                      : 'text-[#5c4d3c] hover:bg-[#c9983a]/20'
                 }`}
               >
                 {option.label}
                 {value === option.value && (
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#c9983a]" />
+                  <div className="w-2 h-2 rounded-full bg-[#c9983a] shadow-[0_0_8px_#c9983a]" />
                 )}
               </li>
             ))}
