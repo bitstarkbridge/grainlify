@@ -15,10 +15,10 @@ interface ModalProps {
 }
 
 const widthClasses = {
-  sm: 'w-[400px]',
-  md: 'w-[500px]',
-  lg: 'w-[550px]',
-  xl: 'w-[650px]'
+  sm: 'w-[95vw] sm:w-[400px]',
+  md: 'w-[95vw] sm:w-[500px]',
+  lg: 'w-[95vw] sm:w-[550px]',
+  xl: 'w-[95vw] sm:w-[650px]'
 };
 
 export function Modal({
@@ -55,7 +55,7 @@ export function Modal({
       onClick={onClose}
     >
       <div
-        className={`rounded-[24px] border-2 shadow-[0_20px_60px_rgba(0,0,0,0.3)] ${widthClasses[width]} max-w-[90vw] max-h-[90vh] flex flex-col transition-all animate-in zoom-in-95 duration-200 ${isDark
+        className={`rounded-[16px] md:rounded-[24px] border-2 shadow-[0_20px_60px_rgba(0,0,0,0.3)] ${widthClasses[width]} max-w-[95vw] sm:max-w-[90vw] max-h-[90vh] flex flex-col transition-all animate-in zoom-in-95 duration-200 ${isDark
             ? 'bg-[#3a3228] border-white/30'
             : 'bg-[#d4c5b0] border-white/40'
           }`}
@@ -63,10 +63,10 @@ export function Modal({
       >
         {/* Fixed Header */}
         {(title || icon || showCloseButton) && (
-          <div className="flex items-start justify-between p-6 pb-4 flex-shrink-0 border-b border-white/10">
+          <div className="flex items-start justify-between p-4 md:p-6 pb-3 md:pb-4 flex-shrink-0 border-b border-white/10">
             <div className="flex items-center gap-3 flex-1">
               {icon && (
-                <div className={`w-10 h-10 rounded-[12px] flex items-center justify-center shadow-lg border-2 flex-shrink-0 ${isDark
+                <div className={`w-8 h-8 md:w-10 md:h-10 rounded-[10px] md:rounded-[12px] flex items-center justify-center shadow-lg border-2 flex-shrink-0 ${isDark
                     ? 'bg-gradient-to-br from-[#e8c571]/30 via-[#d4af37]/25 to-[#c9983a]/20 border-[#e8c571]/50'
                     : 'bg-gradient-to-br from-[#c9983a]/30 via-[#d4af37]/25 to-[#c9983a]/20 border-[#c9983a]/50'
                   }`}>
@@ -74,7 +74,7 @@ export function Modal({
                 </div>
               )}
               {title && (
-                <h3 className={`text-[18px] font-bold transition-colors ${isDark ? 'text-[#e8dfd0]' : 'text-[#2d2820]'
+                <h3 className={`text-[16px] md:text-[18px] font-bold transition-colors ${isDark ? 'text-[#e8dfd0]' : 'text-[#2d2820]'
                   }`}>
                   {title}
                 </h3>
@@ -95,13 +95,13 @@ export function Modal({
         )}
 
         {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto p-6 scrollbar-custom">
+        <div className="flex-1 overflow-y-auto p-4 md:p-6 scrollbar-custom">
           {children}
         </div>
 
         {/* Fixed Footer */}
         {footer && (
-          <div className="flex-shrink-0 border-t border-white/10 p-6 pt-4">
+          <div className="flex-shrink-0 border-t border-white/10 p-4 md:p-6 pt-3 md:pt-4">
             {footer}
           </div>
         )}
