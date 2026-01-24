@@ -353,7 +353,7 @@ export function EcosystemsPage({ onEcosystemClick }: EcosystemsPageProps) {
       )}
 
       {/* Request Ecosystem Section */}
-      <div className={`backdrop-blur-[40px] bg-gradient-to-br rounded-[24px] border shadow-[0_8px_32px_rgba(0,0,0,0.08)] p-10 transition-all overflow-hidden relative ${
+      <div className={`backdrop-blur-2xl bg-gradient-to-br rounded-[24px] border shadow-[0_8px_32px_rgba(0,0,0,0.08)] p-10 transition-all overflow-hidden relative ${
         theme === 'dark'
           ? 'from-white/[0.08] to-white/[0.04] border-white/10'
           : 'from-white/[0.15] to-white/[0.08] border-white/20'
@@ -385,6 +385,15 @@ export function EcosystemsPage({ onEcosystemClick }: EcosystemsPageProps) {
               <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform" />
               Request Ecosystem Addition
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </button>
+
+            <button
+                onClick={() => setShowAddModal(true)}
+                className={`mt-6 block mx-auto text-sm font-medium underline opacity-60 hover:opacity-100 transition-opacity ${
+                  theme === 'dark' ? 'text-[#d4d4d4]' : 'text-[#7a6b5a]'
+                }`}
+            >
+                Open Admin Modal (Dev Only)
             </button>
           </div>
         </div>

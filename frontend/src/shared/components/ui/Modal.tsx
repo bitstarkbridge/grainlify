@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
-import { X } from 'lucide-react';
+import { X, ChevronDown, Check } from 'lucide-react';
+import * as Select from '@radix-ui/react-select';
 import { useTheme } from '../../contexts/ThemeContext';
 
 interface ModalProps {
@@ -251,33 +252,66 @@ export function ModalSelect({
   className = ''
 }: ModalSelectProps) {
   const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   return (
     <div className={className}>
       {label && (
         <label className={`block text-[13px] font-medium mb-2 transition-colors ${
-          theme === 'dark' ? 'text-[#d4d4d4]' : 'text-[#7a6b5a]'
+          isDark ? 'text-[#d4d4d4]' : 'text-[#7a6b5a]'
         }`}>
           {label}
           {required && <span className="text-[#c9983a] ml-1">*</span>}
         </label>
       )}
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        required={required}
-        className={`w-full px-4 py-3 rounded-[14px] backdrop-blur-[30px] border focus:outline-none transition-all text-[14px] ${
-          theme === 'dark'
-            ? 'bg-white/[0.08] border-white/15 text-[#f5f5f5] focus:bg-white/[0.12] focus:border-[#c9983a]/30'
-            : 'bg-white/[0.15] border-white/25 text-[#2d2820] focus:bg-white/[0.2] focus:border-[#c9983a]/30'
-        }`}
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      
+      <Select.Root value={value} onValueChange={onChange} required={required}>
+        <Select.Trigger 
+          className={`w-full px-4 py-3 rounded-[14px] backdrop-blur-[30px] border focus:outline-none transition-all text-[14px] flex items-center justify-between group ${
+            isDark
+              ? 'bg-white/[0.08] border-white/15 text-[#f5f5f5] hover:bg-white/[0.12] data-[state=open]:border-[#c9983a]/50'
+              : 'bg-white/[0.15] border-white/25 text-[#2d2820] hover:bg-white/[0.2] data-[state=open]:border-[#c9983a]/50'
+          }`}
+        >
+          <Select.Value placeholder="Select an option" />
+          <Select.Icon>
+            <ChevronDown className={`w-4 h-4 opacity-50 transition-transform duration-200 group-data-[state=open]:rotate-180 ${
+              isDark ? 'text-white' : 'text-black'
+            }`} />
+          </Select.Icon>
+        </Select.Trigger>
+
+        <Select.Portal>
+          <Select.Content 
+            className={`z-[10001] min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-[14px] border shadow-[0_10px_40px_rgba(0,0,0,0.2)] backdrop-blur-[30px] animate-in fade-in zoom-in-95 duration-200 ${
+              isDark
+                ? 'bg-[#3a3228]/95 border-white/15'
+                : 'bg-[#e6dccf]/95 border-white/30'
+            }`}
+            position="popper"
+            sideOffset={8}
+          >
+            <Select.Viewport className="p-1.5">
+              {options.map((option) => (
+                <Select.Item
+                  key={option.value}
+                  value={option.value}
+                  className={`relative flex w-full cursor-default select-none items-center rounded-[10px] py-2.5 pl-3 pr-8 text-[14px] outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50 ${
+                    isDark
+                      ? 'text-[#f5f5f5] focus:bg-white/[0.1] data-[state=checked]:text-[#c9983a]'
+                      : 'text-[#2d2820] focus:bg-black/[0.05] data-[state=checked]:text-[#c9983a]'
+                  }`}
+                >
+                  <Select.ItemText>{option.label}</Select.ItemText>
+                  <Select.ItemIndicator className="absolute right-2.5 flex items-center justify-center">
+                    <Check className="h-4 w-4" />
+                  </Select.ItemIndicator>
+                </Select.Item>
+              ))}
+            </Select.Viewport>
+          </Select.Content>
+        </Select.Portal>
+      </Select.Root>
     </div>
   );
 }
